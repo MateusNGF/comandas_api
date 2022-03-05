@@ -10,7 +10,7 @@ export class createEvent implements IController {
       const realizador = request.header.company.id
       const new_event: Evento = request.body
       
-      await ObjectManager.hasKeys(["nome", "data_inicio", "data_fim"], new_event)
+      ObjectManager.hasKeys(["nome", "data_inicio", "data_fim"], new_event)
 
       new_event.realizador = realizador
       const newEventResult = await EventRepositry.create(new_event)

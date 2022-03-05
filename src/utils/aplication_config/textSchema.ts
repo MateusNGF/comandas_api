@@ -12,15 +12,7 @@ export default {
           missingParams : "Não foi possivel realizar a busca. Tente informar o nome do evento ou seu id."
         },
         create: {
-          insertFailed : "Não foi possivel criar seu evento, tente novamente mais tarde.",
-          methods: {
-            paramIsRequired: (param : string) => {
-              return `Você precisa informar o ${param} para criar um novo evento.`
-            },
-            paramNotIsRequired: (param: string) => {
-              return `O ${param} não é necessario para criação de um novo evento.`
-            }
-          }
+          insertFailed : "Não foi possivel criar seu evento, tente novamente mais tarde."
         }
       }
     },
@@ -30,8 +22,8 @@ export default {
       missingParams : "Informe os parametros para serem inseridos no token."
     },
     errors: {
-      missingParam: (param: string) => { return `É necessario informar o parametro >> ${param} para conseguir realizar esta ação.` },
-      unexpectedParam: (param: string) => { return `O parametro > ${param} não é necessario para essa ação, remova-o.`}
+      missingParam: (param: string) => { return `É necessario informar o parametro '${param}' para conseguir realizar esta ação.`},
+      unexpectedParam: (param: string) => { return `O parametro '${param}' não é necessario para essa ação, remova-o.`}
     }
   }
 }

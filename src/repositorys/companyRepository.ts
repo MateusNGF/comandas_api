@@ -21,7 +21,7 @@ export class CompanyRepository {
   static async accessCompany(companyIdentifier: string, companySenha : string){
     const db = (await new MongoConnector().connect()).collection(collection)
     return (await db.aggregate([
-      {$match: {$or: [{email: companyIdentifier}, {cnpj: companyIdentifier} ]}, senha : companySenha},
+      {$match: {$or: [{email: companyIdentifier}, {cnpj: companyIdentifier} ]}},
       {
         $redact: {
           $cond: {

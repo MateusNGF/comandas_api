@@ -20,7 +20,7 @@ export class EventRepositry {
     return db.find({ realizador : companyId }).toArray()
   }
 
-  static async getEvent(eventId: string, companyId: string) {
+  static async getEvent(eventId: string, companyId: string ) {
     const db = (await new MongoConnector().connect()).collection(collection)
     return db.aggregate([
       { $match: { id : eventId, realizador: companyId} },
@@ -32,16 +32,29 @@ export class EventRepositry {
           as: 'comandas'
         }
       }, {
-        $facet: {
-          saldo_pago: [{
+        $set: {
+          pagos: {
             $filter: {
-              input: "$comandas",
+              input: '$comandas',
               as: 'comanda',
-              cond: {
-                $eq: ["$$comanda.pago", true]
-              }
+              cond: {$eq: ['$$comanda.pago', true]}
             }
-          }]
+          },
+          pendente: {
+            $filter: {
+              input: '$comandas',
+              as: 'comanda',
+              cond: {$eq: ['$$comanda.pago', false]}
+            }
+          }
+        }
+      }, {
+        $set: {
+          status: {
+            $cond : [{data_fim : {$lte : new Date().toISOString}}, "Finalizado", "Acontecendo"]
+          },
+          lucro: {$sum : '$pagos.saldo'},
+          lucro_pendente: {$sum: '$pendente.saldo'}
         }
       }
     ]).toArray()

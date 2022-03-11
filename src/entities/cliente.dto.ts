@@ -1,23 +1,24 @@
-import { comandaDTO } from "./comanda.dto"
+import { ObjectId } from "mongodb"
+import { Comanda } from "./comanda.dto"
 
-export type clienteDTO = {
-  id?: string | number,
+export type Cliente = {
+  id?: string,
   empresa?: string | number,
   nome?: string,
   email?: string,
   cpf?: string,
   endereco?: string
-  comandas?: Array<comandaDTO>
+  comandas?: Array<Comanda>
 }
 
 
-export namespace clienteDTO {
+export namespace Cliente {
   export type visitante_simples = {
     nome?: string
   }
 }
 
-export namespace clienteDTO {
+export namespace Cliente {
   export type visitante_completo = {
     nome?: string,
     cpf?: string,

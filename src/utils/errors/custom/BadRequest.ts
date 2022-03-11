@@ -1,6 +1,6 @@
 import { ErrorCustom } from "../ErrorCustom";
 
-export class BadRequestError extends ErrorCustom {
+export class BadRequest extends ErrorCustom {
   constructor(msg: string) {
     super(msg)
     this.status = 400

@@ -1,2 +1,3 @@
 export * from './company.route'
-export * from './event_routers'
+export * from './event.routers'
+export * from './command.route'

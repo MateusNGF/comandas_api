@@ -1,4 +1,4 @@
-import textSchema from "../../aplication_config/textSchema";
+import textSchema from "../../configurations/textSchema";
 import { ErrorCustom } from "../ErrorCustom";
 
 export class MissingParam extends ErrorCustom {

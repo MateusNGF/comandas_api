@@ -1,6 +1,6 @@
 import { CompanyRepository } from "../../repositorys"
 import { IController, Messenger, typeCustomRequest, typeCustomResponse, UnauthorizedError } from "../../utils"
-import text_schema from "../../utils/aplication_config/textSchema"
+import text_schema from "../../utils/configurations/textSchema"
 import { buildBody } from "../../utils/JsonWebToken"
 
 export class AccessCompany implements IController {

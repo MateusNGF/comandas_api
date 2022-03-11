@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import text_schema from "./aplication_config/textSchema";
+import text_schema from "./configurations/textSchema";
 import { UnauthorizedError } from "./errors/custom";
 
 export const verify = (req: Request, res: Response, next: NextFunction): any => {

@@ -34,13 +34,17 @@ export class ManagerProductInCommand implements IController {
         }
 
       } else if (action == "remover") {
+
         const setBalance = comanda.saldo - new Number(request.body.value).valueOf()
-        if (setBalance > 0) {comanda.saldo = setBalance
-        } else { throw new BadRequest(textsConfiguration.negativeBalance) }
+        
+        if (setBalance > 0) {
+          comanda.saldo = setBalance
+        } else {
+          throw new BadRequest(textsConfiguration.negativeBalance)
+        }
         
       } else {throw new BadRequest(textsConfiguration.operationRefused)}
 
-      console.log(evento)
       if (CommandsRepository.updateBalance(comanda)) {
         return Messenger.success(comanda)
       }

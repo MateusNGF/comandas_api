@@ -9,9 +9,9 @@ export const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-app.use("/company", company_routers)
-app.use("/event", verify, event_routers)
-app.use("/command", verify, command_routes)
+app.use("/empresa", company_routers)
+app.use("/evento", verify, event_routers)
+app.use("/comanda", verify, command_routes)
 
 app.listen(process.env.PORT, () => {
   console.log(`running in http://localhost:${process.env.PORT}`)

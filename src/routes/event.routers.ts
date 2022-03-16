@@ -5,11 +5,11 @@ import { ExpressAdapterRouter } from "../utils/adapter";
 
 export const event_routers = Router()
 
-event_routers.post("/create", ExpressAdapterRouter.adapt(new createEvent()))
-event_routers.get("/find", ExpressAdapterRouter.adapt(new findEvent()))
-event_routers.get("/getEvents", ExpressAdapterRouter.adapt(new getEvents()))
-event_routers.get("/:eventId/getEvent", ExpressAdapterRouter.adapt(new getEvent()))
+event_routers.post("/criar", ExpressAdapterRouter.adapt(new createEvent()))
+event_routers.get("/procurar", ExpressAdapterRouter.adapt(new findEvent()))
+event_routers.get("/listar", ExpressAdapterRouter.adapt(new getEvents()))
+event_routers.get("/:eventId/get", ExpressAdapterRouter.adapt(new getEvent()))
 
 
-event_routers.put("/:eventId/archive/:status", ExpressAdapterRouter.adapt(new ArquivedEvent()))
+event_routers.put("/:eventId/arquivar/:status", ExpressAdapterRouter.adapt(new ArquivedEvent()))
 

@@ -4,7 +4,7 @@ import { Evento } from "../entities"
 
 const collection: string = 'eventos'
 
-export class EventRepositry {
+export class EventRepository {
   
   static async findByNome(eventNome: string, companyId : string) {
     const db = (await new MongoConnector().connect()).collection<Evento>(collection)
@@ -49,8 +49,8 @@ export class EventRepositry {
     const db = (await new MongoConnector().connect()).collection<Evento>(collection)
     return db.find(
       { realizador: companyId },
-      { projection: { realizador: 0 } })
-      .sort({ data_inicio: 1 }).limit(10).toArray()
+      { projection: { realizador: 0, _id : 0} })
+      .sort({ criado_em: -1 }).limit(10).toArray()
   }
 
   static async getEvent(eventId: string, companyId: string ) {

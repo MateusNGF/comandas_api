@@ -1,3 +1,5 @@
+const currentDate = new Date()
+
 export const props = {
   entities: {
     company: {
@@ -5,7 +7,9 @@ export const props = {
       responsavel: { text : {min: 10, max:30}}
     },
     evento: {
-      nome : { text : {min : 10, max : 30}}
+      nome: { text: { min: 10, max: 30 } },
+      defaultMaximoSaldo: 300,
+      minDateInicio: `${currentDate.getFullYear()}/${(currentDate.getMonth() - 1)}/${currentDate.getDate()}`
     }
   },
   

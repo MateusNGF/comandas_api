@@ -1,4 +1,4 @@
-import { Db, MongoClient } from "mongodb"
+import { Collection, Db, MongoClient } from "mongodb"
 
 export class MongoConnector {
 
@@ -16,4 +16,12 @@ export class MongoConnector {
       }
     })
   }
+
+  async con(): Promise<Db> {
+    const mongoCLiente: MongoClient = await MongoClient.connect(process.env.MONGO_HOST)
+    return mongoCLiente.db(process.env.MONGO_DB)
+  }
 }
+
+
+new MongoConnector().con()

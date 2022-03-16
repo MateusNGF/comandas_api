@@ -21,11 +21,13 @@ export default {
           missingParams: "Não foi possivel realizar a busca. Tente informar o nome ou id do evento."
         },
         create: {
-          insertFailed : "Não foi possivel criar seu evento, tente novamente mais tarde."
+          insertFailed: "Não foi possivel criar seu evento, tente novamente mais tarde.",
+          dateInvalid: "As datas são invalidas, a data de inicio é maior que a data do fim.",
+          dateStartInvalid : `O evento só pode ser criado até um mês atrás (${props.entities.evento.minDateInicio}).`
         },
         archiveFailed: "Não foi possivel arquivar o evento, tente novamente.",
         unarchiveFailed: "Não foi possivel desarquivar o evento, tente novamente.",
-        eventNotFound : "O evento não foi encontrado.",
+        eventNotFound: "O evento não foi encontrado.",
         validation: {
           minLenght: (param: string) => { return `Insira um texto maior para '${param}', fuciona apartir de ${props.entities.evento[param.toString()].text.min} carácteres.` },
           maxLenght: (param: string) => { return `O texto em '${param}' é muito grande, tente por menor que ${props.entities.evento[param.toString()].text.max} carácteres.` }
@@ -33,7 +35,11 @@ export default {
       },
       command: {
         insertFailed: "Não foi possivel adicionar essa comanda ao evento, porfavor tente mais tarde.",
-        inUse: "Essa comanda já esta em uso. tente atribuir outra."
+        inUse: "Essa comanda já esta em uso. tente atribuir outra.",
+        NotFound: "Essa comanda especifica não foi encontrada.",
+        operationRefused: "Não foi possivel realizar essa operação. Verifique a requisição ou tente novamente.",
+        negativeBalance: "O saldo ao remover vai ficar negativo, algo deu errado. MUITO ERRADO!!!",
+        undefinedError : "Algo deu errado ao atualizar saldo, tente executar novamente essa operação."
       }
     },
     jwt: {

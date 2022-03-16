@@ -6,6 +6,6 @@ import { ExpressAdapterRouter } from "../utils/adapter";
 
 export const company_routers = Router()
 
-company_routers.get("/access", ExpressAdapterRouter.adapt(new AccessCompany()))
-company_routers.post("/register", ExpressAdapterRouter.adapt(new RegisterCompany()))
+company_routers.get("/acessar", ExpressAdapterRouter.adapt(new AccessCompany()))
+company_routers.post("/registrar", ExpressAdapterRouter.adapt(new RegisterCompany()))
 

@@ -1,4 +1,4 @@
-import { EventRepositry } from "../../repositorys/eventRepositoriy";
+import { EventRepository } from "../../repositorys/eventRepository";
 import { IController, Messenger, typeCustomRequest, typeCustomResponse } from "../../utils";
 
 export class getEvent implements IController {
@@ -8,7 +8,8 @@ export class getEvent implements IController {
       const eventId: string = request.params.eventId
       const companyId: string = request.header.company.id
 
-      return Messenger.success(await EventRepositry.getEvent(eventId, companyId))
+
+      return Messenger.success(await EventRepository.getEvent(eventId, companyId))
     } catch (erro) {
       return Messenger.error(erro)
     }

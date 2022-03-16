@@ -12,6 +12,7 @@ export class AccessCompany implements IController {
       if (!identifier || !senha) {
         throw new UnauthorizedError(text_schema.ptbr.controllers.company.access.missingParam)
       }
+      
       const companyCurrent = await CompanyRepository.accessCompany(identifier, senha)
       if (!companyCurrent) {
         throw new UnauthorizedError(text_schema.ptbr.controllers.company.access.companyFailedAccess)

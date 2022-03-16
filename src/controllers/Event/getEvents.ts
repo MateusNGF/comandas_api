@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { EventRepositry } from "../../repositorys/eventRepositoriy";
+import { EventRepository } from "../../repositorys/eventRepository";
 import { IController, Messenger, typeCustomRequest, typeCustomResponse } from "../../utils";
 
 export class getEvents implements IController {
@@ -7,7 +7,7 @@ export class getEvents implements IController {
     try {
       const companyId = request.header.company.id
       
-      return Messenger.success(await EventRepositry.getEvents(companyId))
+      return Messenger.success(await EventRepository.getEvents(companyId))
     } catch (erro) {
       return Messenger.error(erro)
     }

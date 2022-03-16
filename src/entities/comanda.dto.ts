@@ -10,8 +10,8 @@ export class Comanda {
 
   id?: string
   evento: string
-  numero: Number
-  saldo?: Number
+  numero: number
+  saldo?: number
   is_visitor?: boolean
   portador: Cliente | Cliente.visitante_simples | Cliente.visitante_completo | string
   status?: boolean
@@ -21,4 +21,5 @@ export class Comanda {
   valid() {
     for (const key in this) { if (!this[key]) throw new MissingParam(key) }
   }
+  
 }

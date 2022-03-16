@@ -1,4 +1,5 @@
 import { ObjectId } from "mongodb"
+import { BadRequest } from "../utils"
 import { props } from "../utils/configurations"
 import textSchema from "../utils/configurations/textSchema"
 import { InvalidFormat } from "../utils/errors/custom/InvalidFormat"
@@ -20,6 +21,7 @@ export class Evento {
   comandas?: Array<Comanda>
   criado_em?: string
   arquivado?: boolean
+  maximo_saldo: number
 
   valid() {
     for (const key in this) {if (!this[key]) throw new MissingParam(key)}
@@ -33,4 +35,5 @@ export class Evento {
       }
     }
   }
+  
 }

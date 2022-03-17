@@ -22,6 +22,3 @@ export class MongoConnector {
     return mongoCLiente.db(process.env.MONGO_DB)
   }
 }
-
-
-new MongoConnector().con()

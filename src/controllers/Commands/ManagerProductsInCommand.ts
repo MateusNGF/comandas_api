@@ -2,7 +2,7 @@ import { Evento } from "../../entities";
 import { Comanda } from "../../entities/comanda.dto";
 import { EventRepository } from "../../repositorys";
 import { CommandsRepository } from "../../repositorys/commadRepository";
-import { BadRequest, IController, Messenger, ObjectManager, typeCustomRequest, typeCustomResponse, UnauthorizedError as Unauthorized } from "../../utils";
+import { BadRequest, IController, Messenger, ObjectManager, typeCustomRequest, typeCustomResponse, Unauthorized as Unauthorized } from "../../utils";
 import textSchema from "../../utils/configurations/textSchema";
 const textsConfiguration = textSchema.ptbr.controllers.command
 
@@ -19,9 +19,9 @@ export class ManagerProductInCommand implements IController {
       ObjectManager.hasKeys(["value"], request.body)
 
       let comanda: Comanda = await CommandsRepository.findCommandByEvent(comandaId, eventId)
-      let evento: Evento = await EventRepository.findById(comanda.evento, companyId)
-
       if (!comanda) throw new BadRequest(textsConfiguration.NotFound)
+
+      let evento: Evento = await EventRepository.findById(comanda.evento, companyId)
       if (!evento) throw new Unauthorized(textsConfiguration.operationRefused)
       
       if (action == "adicionar") {

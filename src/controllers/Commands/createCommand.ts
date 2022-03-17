@@ -17,7 +17,7 @@ export class CreateCommand implements IController {
       
       let comanda = new Comanda(request.body)
 
-      if (await CommandsRepository.checkUseNumber(comanda.numero, eventId)) {
+      if (await CommandsRepository.isUsed(comanda.numero, eventId)) {
         throw new BadRequest(textSchema.ptbr.controllers.command.inUse)
       }
       
@@ -25,12 +25,13 @@ export class CreateCommand implements IController {
       comanda.saldo = 0
       comanda.evento = eventId
       comanda.criado_em = new Date().toISOString()
+      comanda.pago = false
+      
       const databaseResult = await CommandsRepository.create(comanda)
 
-      if (!databaseResult.insertedId) {
-        throw new BadRequest(textSchema.ptbr.controllers.command.insertFailed)
-      }
-      return Messenger.success({})
+      if (databaseResult.insertedId) { return Messenger.success({}) }
+      
+      throw new BadRequest(textSchema.ptbr.controllers.command.insertFailed)
     } catch (erro) {
       return Messenger.error(erro)
     }

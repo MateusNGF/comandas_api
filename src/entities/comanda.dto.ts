@@ -13,8 +13,8 @@ export class Comanda {
   numero: number
   saldo?: number
   is_visitor?: boolean
-  portador: Cliente | Cliente.visitante_simples | Cliente.visitante_completo | string
-  status?: boolean
+  portador: Cliente | Cliente.visitante_simples | Cliente.visitante_completo
+  pago?: boolean
   produtos?: any
   criado_em?: string
   

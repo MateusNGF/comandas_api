@@ -7,9 +7,10 @@ import { Comanda } from "../entities/comanda.dto";
 let collection = 'comandas'
 
 export class CommandsRepository {
-  static async checkUseNumber(numero: Number, eventoId : string) {
+  static async isUsed(numero: Number, eventoId : string) {
     const db = (await new MongoConnector().connect()).collection<Comanda>(collection)
-    return db.findOne({ evento : eventoId, numero}, { projection : { "status" : true }})
+    const dbResult = await db.findOne({ evento: eventoId, numero }, { projection: { id: 1, _id: 0 } })
+    return (dbResult) ? true : false
   }
 
   static async create(comanda: Comanda) {
@@ -26,5 +27,11 @@ export class CommandsRepository {
   static async updateBalance(comanda: Comanda) {
     const db = (await new MongoConnector().connect()).collection<Comanda>(collection)
     return db.updateOne({id : comanda.id}, { $set : { "saldo" : comanda.saldo}})
+  }
+
+  static async pay(comandaId: string, eventId:string) {
+    const db = (await new MongoConnector().connect()).collection<Comanda>(collection)
+    const dbResult = await db.updateOne({ id: comandaId, evento: eventId }, { $set: { "pago": true } })
+    return (dbResult.modifiedCount>0) ? true : false
   }
 }

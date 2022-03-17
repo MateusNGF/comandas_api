@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import text_schema from "./configurations/textSchema";
-import { UnauthorizedError } from "./errors/custom";
+import { Unauthorized } from "./errors/custom";
 
 export const verify = (req: Request, res: Response, next: NextFunction): any => {
   try {
     let token = req.headers["x-access-token"];
-    if (!token) throw new UnauthorizedError(text_schema.ptbr.jwt.missingToken);
+    if (!token) throw new Unauthorized(text_schema.ptbr.jwt.missingToken);
 
     req.header["company"] = decoded(token.toString());
     next();
@@ -23,7 +23,7 @@ export const verify = (req: Request, res: Response, next: NextFunction): any => 
 export const decoded = (token: string): {} => {
   let decodedUser: any;
   jwt.verify(token, process.env.jwtPassword, (failed, decoded) => {
-    if (failed) throw new UnauthorizedError(text_schema.ptbr.jwt.invalidKey);
+    if (failed) throw new Unauthorized(text_schema.ptbr.jwt.invalidKey);
     decodedUser = decoded;
   });
   return decodedUser;

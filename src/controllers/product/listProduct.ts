@@ -1,4 +1,4 @@
-import { Produto } from "../../entities";
+import { Produto, ProdutoEstoque } from "../../entities";
 import { CompanyRepository, ProductRepository } from "../../repositorys";
 import { IController, Messenger, typeCustomRequest, typeCustomResponse } from "../../utils";
 
@@ -8,9 +8,9 @@ export class ListProducts implements IController {
     try {
       const companyId: string = request.header.company.id
       
-      const produtos : Array<Produto> = await ProductRepository.list(companyId)
+      const produtosEstoque : Array<ProdutoEstoque> = await ProductRepository.list(companyId)
 
-      return Messenger.success(produtos)
+      return Messenger.success(produtosEstoque)
     } catch (error) {
       return Messenger.error(error)
     }

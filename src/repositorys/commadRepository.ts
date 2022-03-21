@@ -1,6 +1,6 @@
 import { v4 as GeneratorId } from "uuid";
 import { MongoConnector } from "../database/MongoConnector";
-import { Comanda } from "../entities/Comanda.dto";
+import { Comanda } from "../entities/Comanda";
 
 
 let collection = 'eventos'

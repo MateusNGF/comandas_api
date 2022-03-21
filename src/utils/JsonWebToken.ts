@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { Company } from "../entities";
+import { Empresa } from "../entities";
 import text_schema from "./configurations/textSchema";
 import { Unauthorized } from "./errors/custom";
 
@@ -41,7 +41,7 @@ export const create = (
   });
 };
 
-export const buildBody = (company: Company): any => {
+export const buildBody = (company: Empresa): any => {
 
   let tokenInfo = {
     id: company.id,

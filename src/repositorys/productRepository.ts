@@ -1,12 +1,12 @@
 import { v4 as GeneretorId } from "uuid"
 import { MongoConnector } from "../database/MongoConnector"
-import { Company, Produto, ProdutoEstoque } from "../entities"
+import { Empresa, Produto, ProdutoEstoque } from "../entities"
 
 const colletion: string = 'empresas'
 
 export class ProductRepository {
   static async add(companyId: string, product: Produto) {
-    const db = (await new MongoConnector().connect()).collection<Company>(colletion)
+    const db = (await new MongoConnector().connect()).collection<Empresa>(colletion)
     product.id = GeneretorId()
     let dbResult = await db.updateOne(
       { id: companyId },
@@ -29,19 +29,18 @@ export class ProductRepository {
         }
       }
     )
-    console.log(dbResult)
     return (dbResult.modifiedCount) ? true : false
   }
 
 
   static async list(companyId:string) {
-    const db = (await new MongoConnector().connect()).collection<Array<Produto>>(colletion)
+    const db = (await new MongoConnector().connect()).collection<Array<ProdutoEstoque>>(colletion)
     return db.findOne({ id : companyId}, { projection : { _id : 0, produtos : 1}})
   }
 
   static async atualizar(companyId: string, produto: ProdutoEstoque) {
-    const db = (await new MongoConnector().connect()).collection<Company>(colletion)
-    return db.updateOne(
+    const db = (await new MongoConnector().connect()).collection<Empresa>(colletion)
+    const dbResult = await db.updateOne(
       { id: companyId, 'produtos.id' : produto.id },
       {
         $set: {
@@ -49,6 +48,7 @@ export class ProductRepository {
         }
       }
     )
+   return (dbResult.modifiedCount)?true:false
   }
   
 }

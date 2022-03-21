@@ -1,7 +1,6 @@
-import { Company, Evento, ProdutoComprado, ProdutoEstoque } from "../../entities";
-import { Comanda } from "../../entities/Comanda.dto";
-import { CommandsRepository, CompanyRepository, EventRepository, ProductRepository } from "../../repositorys";
-import { BadRequest, IController, Messenger, ObjectManager, typeCustomRequest, typeCustomResponse, Unauthorized as Unauthorized } from "../../utils";
+import { Comanda, Empresa, Evento, ProdutoComprado, ProdutoEstoque } from "../../entities";
+import { CommandsRepository, CompanyRepository, ProductRepository } from "../../repositorys";
+import { BadRequest, IController, Messenger, ObjectManager, typeCustomRequest, typeCustomResponse, Unauthorized } from "../../utils";
 import textSchema from "../../utils/configurations/textSchema";
 const textsConfiguration = textSchema.ptbr.controllers.command
 
@@ -20,7 +19,7 @@ export class ManagerProductInCommand implements IController {
 
       const quantidadeDeProdutos:number = Number(request.body.quantidade)
 
-      let Empresa: Company = await CompanyRepository.getCompany(companyId)
+      let Empresa: Empresa = await CompanyRepository.getCompany(companyId)
       if (!Empresa) throw new BadRequest("Empresa não encontrada.")
 
       // verifica se existe algum evento cadastrado.
@@ -113,12 +112,12 @@ export class ManagerProductInCommand implements IController {
 
       // ATUALIZAR TODOS OS DADOS
       // estoque do produto (Produto)
-      await ProductRepository.atualizar(companyId, ProdutoEstoque)
+      if (!await ProductRepository.atualizar(companyId, ProdutoEstoque))
+        throw new BadRequest(`Ocorreu um erro ao atualizar o estoque do produto "${ProdutoEstoque.nome}".`)
+      
       // comanda do evento (Comanda)
-      await CommandsRepository.atualizar(companyId, eventId, Comanda)
-
-      console.log("Estoque => ", ProdutoEstoque)
-      console.log("Comanda => ", Comanda);
+      if (!await CommandsRepository.atualizar(companyId, eventId, Comanda))
+        throw new BadRequest(`Ocorreu um erro ao atualizar a comanda ${Comanda.numero}. Tente Novamente.`)
       
       return Messenger.success(Comanda)
     } catch (erro) {

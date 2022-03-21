@@ -1,4 +1,4 @@
-import { Company } from "../../entities";
+import { Empresa } from "../../entities";
 import { CompanyRepository } from "../../repositorys";
 import { BadRequest as BadRequest, IController, Messenger, ObjectManager, typeCustomRequest, typeCustomResponse } from "../../utils";
 import schemasTexts from "../../utils/configurations/textSchema";
@@ -10,7 +10,7 @@ export class RegisterCompany implements IController {
 
       ObjectManager.hasKeys(["responsavel", "nome", "cnpj", "email", "telefone", "senha"], request.body)
 
-      let company: Company = new Company(request.body)
+      let company: Empresa = new Empresa(request.body)
 
       if (await CompanyRepository.findCompanyByEMail(company.email)) {
         throw new BadRequest(texts.companyRegistred('Email'))

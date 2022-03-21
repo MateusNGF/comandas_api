@@ -8,7 +8,7 @@ export class RegisterCompany implements IController {
   async exec(request: typeCustomRequest): Promise<typeCustomResponse> {
     try {
 
-      ObjectManager.hasKeys(["responsavel", "empresa", "cnpj", "email", "telefone", "senha"], request.body)
+      ObjectManager.hasKeys(["responsavel", "nome", "cnpj", "email", "telefone", "senha"], request.body)
 
       let company: Company = new Company(request.body)
 
@@ -20,6 +20,7 @@ export class RegisterCompany implements IController {
       
       company.criado_em = new Date().toISOString()
       company.atualizado_em = new Date().toISOString()
+      company.produtos = []
 
       const result = await CompanyRepository.create(company)
       return Messenger.success(result)

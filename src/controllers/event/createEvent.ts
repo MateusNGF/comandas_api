@@ -12,6 +12,8 @@ export class createEvent implements IController {
 
       ObjectManager.hasKeys(["nome", "maximo_saldo", "data_inicio", "data_fim"], request.body)
       
+    // verificar se a empresa existe
+
       const evento: Evento = new Evento(request.body)
    
       evento.data_inicio = new Date(request.body.data_inicio).toISOString()

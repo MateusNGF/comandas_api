@@ -4,7 +4,7 @@ import { props } from "../utils/configurations"
 import textSchema from "../utils/configurations/textSchema"
 import { InvalidFormat } from "../utils/errors/custom/InvalidFormat"
 import { MissingParam } from "../utils/errors/custom/MissingParam"
-import { Comanda } from "./comanda.dto"
+import { Comanda } from "./Comanda.dto"
 
 export class Evento {
 

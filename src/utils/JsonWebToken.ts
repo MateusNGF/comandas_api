@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import { Company } from "../entities";
 import text_schema from "./configurations/textSchema";
 import { Unauthorized } from "./errors/custom";
 
@@ -40,7 +41,17 @@ export const create = (
   });
 };
 
-export const buildBody = (user): any => {
-  user["token"] = create(user)
-  return user;
+export const buildBody = (company: Company): any => {
+
+  let tokenInfo = {
+    id: company.id,
+    responsavel: company.responsavel,
+    cnpj: company.cnpj,
+    telefone : company.telefone,
+    email: company.email,
+    nome : company.nome
+  } 
+
+  company["token"] = create(tokenInfo)
+  return company;
 };

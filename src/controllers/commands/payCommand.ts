@@ -15,7 +15,7 @@ export class PayCommand implements IController {
       let comanda: Comanda = await CommandsRepository.findCommandByEvent(commandId, eventId)
       if (!comanda) throw new BadRequest(textsConfiguration.NotFound)
 
-      let evento: Evento = await EventRepository.findById(comanda.evento, companyId)
+      let evento: Evento = await EventRepository.findById("", companyId)
       if (!evento) throw new Unauthorized(textsConfiguration.operationRefused)
 
       if (comanda.pago && comanda.pago == true) {

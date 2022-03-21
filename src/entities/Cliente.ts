@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb"
-import { Comanda } from "./comanda.dto"
+import { Comanda } from "./Comanda.dto"
 
 export type Cliente = {
   id?: string,

@@ -1,12 +1,13 @@
 import { Email } from "../utils"
 import { MissingParam } from "../utils/errors/custom/MissingParam"
 import * as Validator from 'brazilian-values'
-import { Cliente } from "./cliente.dto"
-import { Evento } from "./evento.dto"
+import { Cliente } from "./Cliente"
+import { Evento } from "./Evento.dto"
 import { InvalidFormat } from "../utils/errors/custom/InvalidFormat"
 import { props } from "../utils/configurations"
 import textSchema from "../utils/configurations/textSchema"
 import { ObjectId } from "mongodb"
+import { Produto } from "./Produto"
 
 export class Company {
   constructor(company : Company) {
@@ -16,13 +17,14 @@ export class Company {
 
   id?: string
   responsavel?: string
-  empresa: string
+  nome: string
   cnpj?: string
   email: string
   senha?: string
   telefone?: string
   clientes?: Array<Cliente>
   eventos?: Array<Evento>
+  produtos?: Array<Produto>
   criado_em?: string
   atualizado_em?: string
 

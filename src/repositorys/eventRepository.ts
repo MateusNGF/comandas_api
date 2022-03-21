@@ -49,24 +49,12 @@ export class EventRepository {
     const db = (await new MongoConnector().connect()).collection<Evento>(collection)
     return db.find(
       { realizador: companyId },
-      { projection: { realizador: 0, _id : 0} })
-      .sort({ criado_em: -1 }).limit(10).toArray()
+      { projection: { realizador: 0, _id : 0, comandas: 0} })
+      .sort({ criado_em: -1 }).toArray()
   }
 
   static async getEvent(eventId: string, companyId: string ) {
     const db = (await new MongoConnector().connect()).collection<Evento>(collection)
-    return db.aggregate([
-      {
-        $match: {realizador: companyId,id: eventId}
-      },
-      {
-        $lookup: {
-          from: 'comandas',
-          localField: 'id',
-          foreignField: 'evento',
-          as: 'comandas'
-        }
-      }
-    ]).toArray()
+    return db.findOne({realizador: companyId, id: eventId })
   }
 }

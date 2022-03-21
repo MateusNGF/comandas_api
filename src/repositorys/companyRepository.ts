@@ -1,8 +1,6 @@
-import { ObjectId } from "mongodb";
 import { v4 as GeneratorId } from "uuid";
 import { MongoConnector } from "../database/MongoConnector";
-import { Company } from "../entities";
-import { Comanda } from "../entities/comanda.dto";
+import { Company, Produto } from "../entities";
 
 const collection : string = 'empresas'
 
@@ -22,26 +20,38 @@ export class CompanyRepository {
     return db.findOne({ email: companyEmail })
   }
 
-  static async accessCompany(companyIdentifier: string, companySenha: string){
+  static async accessCompany(companyIdentifier: string, companySenha: string) {
     const db = (await new MongoConnector().connect()).collection<Company>(collection)
-    return (await db.aggregate([
-      { $match: { $or: [{ email: companyIdentifier }, { cnpj: companyIdentifier }] } },
-      {
-        $redact: {
-          $cond: {
-            if: { $eq: ["$senha", companySenha] },
-            then: "$$DESCEND",
-            else: "$$PRUNE"
-          }
-        }
-      },
-      { $project: { senha: 0 } }
-    ]).toArray())[0]
+    return db.findOne({
+      $or: [{ email: companyIdentifier }, { cnpj: companyIdentifier }],
+      senha : companySenha
+    }, { projection: { responsavel: 1, email : 1, cnpj : 1, telefone : 1, nome : 1, id :1, _id : 0  } })
   }
 
   static async create(company: Company) {
     const db = (await new MongoConnector().connect()).collection<Company>(collection)
     company.id = GeneratorId()
     return db.insertOne(company, {writeConcern : {j:true, wtimeout: 1000}})
+  }
+
+  static async getCompany(companyId: string) {
+    const db = (await new MongoConnector().connect()).collection(collection)
+    return (await db.aggregate<Company>([
+      { $match: { id: companyId } },
+      {
+        $lookup: {
+          from: 'eventos',
+          localField: 'id',
+          foreignField: 'realizador',
+          as: 'eventos'
+        }
+      },
+      {
+        $project: {
+          senha: 0,
+          _id : 0
+        }
+      }
+    ]).toArray())[0]
   }
 }

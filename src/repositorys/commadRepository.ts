@@ -1,22 +1,20 @@
-import { ObjectId } from "mongodb";
 import { v4 as GeneratorId } from "uuid";
 import { MongoConnector } from "../database/MongoConnector";
-import { Comanda } from "../entities/comanda.dto";
+import { Comanda } from "../entities/Comanda.dto";
 
 
-let collection = 'comandas'
+let collection = 'eventos'
 
 export class CommandsRepository {
-  static async isUsed(numero: Number, eventoId : string) {
-    const db = (await new MongoConnector().connect()).collection<Comanda>(collection)
-    const dbResult = await db.findOne({ evento: eventoId, numero }, { projection: { id: 1, _id: 0 } })
-    return (dbResult) ? true : false
-  }
-
-  static async create(comanda: Comanda) {
-    const db = (await new MongoConnector().connect()).collection<Comanda>(collection)
+  
+  static async create(eventId: string, comanda: Comanda) {
+    const db = (await new MongoConnector().connect()).collection(collection)
     comanda.id = GeneratorId()
-    return db.insertOne(comanda)
+    const dbResult = (await db.updateOne(
+      { id: eventId },
+      { $push: { "comandas": comanda } })
+    )
+    return (dbResult.modifiedCount)?true:false
   }
 
   static async findCommandByEvent(comandaId: string, eventoId: string) {
@@ -33,5 +31,17 @@ export class CommandsRepository {
     const db = (await new MongoConnector().connect()).collection<Comanda>(collection)
     const dbResult = await db.updateOne({ id: comandaId, evento: eventId }, { $set: { "pago": true } })
     return (dbResult.modifiedCount>0) ? true : false
+  }
+
+  static async atualizar(companyId: string, eventId: string, command: Comanda) {
+    const db = (await new MongoConnector().connect()).collection<Comanda>(collection)
+    return db.updateOne(
+      { realizador: companyId, id: eventId, 'comandas.id': command.id },
+      {
+        $set: {
+          'comandas.$' : command
+        }
+      }
+    )
   }
 }

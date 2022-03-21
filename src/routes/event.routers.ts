@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { createEvent, findEvent, getEvent, getEvents } from "../controllers/Event";
-import { ArquivedEvent } from "../controllers/Event/archiveEvent";
+import { createEvent, findEvent, getEvent, getEvents } from "../controllers/event";
+import { ArquivedEvent } from "../controllers/event/archiveEvent";
 import { ExpressAdapterRouter } from "../utils/adapter";
 
 export const event_routers = Router()

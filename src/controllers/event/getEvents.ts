@@ -1,4 +1,3 @@
-import { ObjectId } from "mongodb";
 import { EventRepository } from "../../repositorys/eventRepository";
 import { IController, Messenger, typeCustomRequest, typeCustomResponse } from "../../utils";
 

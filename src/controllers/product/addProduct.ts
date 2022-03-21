@@ -19,7 +19,7 @@ export class AddProduct implements IController {
       if (Empresa.produtos && Empresa.produtos.find(produtoCadastrado => {
         return produtoCadastrado.nome === produtoEstoque.nome && produtoCadastrado.marca && produtoCadastrado.marca === produtoEstoque.marca
       })) {
-        throw new BadRequest(`Você já possui esse o produto cadastrado.`)
+        throw new BadRequest(`Você já possui esse o produto ${produtoEstoque.nome} da marca ${produtoEstoque.marca} cadastrado.`)
       }
 
       if (!ProductRepository.add(Empresa.id, produtoEstoque)) {

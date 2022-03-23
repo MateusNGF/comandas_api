@@ -1,6 +1,6 @@
 import { v4 as GeneratorId } from "uuid"
 import { MongoConnector } from "../database/MongoConnector"
-import { Evento } from "../entities"
+import { Comanda, Evento } from "../entities"
 
 const collection: string = 'eventos'
 

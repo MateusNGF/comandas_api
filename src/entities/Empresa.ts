@@ -1,17 +1,16 @@
-import { Email } from "../utils"
+import { BadRequest, Email } from "../utils"
 import { MissingParam } from "../utils/errors/custom/MissingParam"
 import * as Validator from 'brazilian-values'
-import { Cliente } from "./Cliente"
-import { Evento } from "./Evento"
+import { Cliente, Produto, Evento } from "./"
 import { InvalidFormat } from "../utils/errors/custom/InvalidFormat"
 import { props } from "../utils/configurations"
 import textSchema from "../utils/configurations/textSchema"
-import { Produto } from "./Produto"
+import { ProdutoEstoque } from "./Produto"
 
 export class Empresa {
-  constructor(company : Empresa) {
-    Object.assign(this, company)
-    this.valid()
+  constructor(empresa : Empresa) {
+    Object.assign(this, empresa)
+    this.validar()
   }
 
   id?: string
@@ -23,11 +22,11 @@ export class Empresa {
   telefone?: string
   clientes?: Array<Cliente>
   eventos?: Array<Evento>
-  produtos?: Array<Produto>
+  produtos?: Array<ProdutoEstoque>
   criado_em?: string
   atualizado_em?: string
 
-  valid() {
+  validar() {
     for (const key in this) { if (!this[key]) throw new MissingParam(key) }
     for (const key in this) {
       if (props.entities.company[key.toString()]) {
@@ -44,4 +43,20 @@ export class Empresa {
     if (!Validator.isPhone(this.telefone)) throw new InvalidFormat("Telefone")
     return true
   }
+
+  pegarEvento(eventId: string): Evento {
+    if (!this.eventos) throw new BadRequest(`${this.nome} não realizou nenhum evento ainda.`)
+    let Evento: Evento = this.eventos.find(e => e.id === eventId)
+    if (!Evento) throw new BadRequest("O evento não foi encontrado.")
+    else return Evento
+  }
+
+  pegarProduto(productId: string) {
+    if (!this.produtos) throw new BadRequest("Nenhum produto cadastrado.")
+    let produto: ProdutoEstoque = this.produtos?.find(p => p.id === productId)
+    if (!produto) throw new BadRequest("Esse produto não existe no seu estoque.")
+    return produto
+  }
+
+
 }

@@ -1,5 +1,7 @@
+import { formatToBRL } from "brazilian-values"
 import { ObjectId } from "mongodb"
-import { BadRequest } from "../utils"
+import { CommandsRepository } from "../repositorys"
+import { BadRequest, DatabaseError } from "../utils"
 import { props } from "../utils/configurations"
 import textSchema from "../utils/configurations/textSchema"
 import { InvalidFormat } from "../utils/errors/custom/InvalidFormat"
@@ -13,18 +15,17 @@ export class Evento {
     this.valid()
   }
 
-  id?: string
-  nome: string
-  realizador: string
-  data_inicio: string
-  data_fim: string
-  comandas?: Array<Comanda>
-  criado_em?: string
-  arquivado?: boolean
-  maximo_saldo: number
+  id?: string;
+  nome: string;
+  realizador: string;
+  data_inicio: string;
+  data_fim: string;
+  comandas?: Array<Comanda> = []
+  criado_em?: string = new Date().toISOString()
+  arquivado?: boolean = false
+  maximo_saldo: number = 500
 
   valid() {
-    for (const key in this) {if (!this[key]) throw new MissingParam(key)}
     for (const key in this) {
       if (props.entities.evento[key.toString()]) {
         if (this[key.toString()].length < props.entities.evento[key.toString()].text.min) {
@@ -35,5 +36,25 @@ export class Evento {
       }
     }
   }
-  
+
+  pegarComanda(comandaId: string) : Comanda {
+    if (!this.comandas) throw new BadRequest(`O evento ${this.nome} não possui comandas ainda.`)
+    let Comanda: Comanda = this.comandas.find(c => c.id === comandaId)
+    if (!Comanda) throw new BadRequest("Comanda não foi encontrada.")
+    else return Comanda
+  }
+
+  async atualizarComanda(comanda: Comanda) : Promise<Boolean> {
+    this.comandas[this.comandas.indexOf(this.comandas.find(c => c.id === comanda.id))] = comanda
+    if (await CommandsRepository.atualizar(this.realizador, this.id, comanda)) {return true}
+    throw new DatabaseError(null, "Não foi possivel atualizar a comanda " + comanda.numero)
+  }
+
+  formatarDinheiro(valor?: number) {
+    if (valor) return formatToBRL(valor)
+  }
+
+  pegarMaximoSaldo() {
+    return this.formatarDinheiro(this.maximo_saldo)
+  }
 }

@@ -1,2 +1,6 @@
 export * from './UnauthorizedError'
 export * from './BadRequest'
+export * from './DatabaseError'
+export * from './InvalidFormat'
+export * from './MissingParam'
+export * from './UnexpectedParam'

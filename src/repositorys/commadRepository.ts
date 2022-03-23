@@ -27,21 +27,22 @@ export class CommandsRepository {
     return db.updateOne({id : comanda.id}, { $set : { "saldo" : comanda.saldo}})
   }
 
-  static async pay(comandaId: string, eventId:string) {
+  static async pay(comandaId: string, eventId: string) {
     const db = (await new MongoConnector().connect()).collection<Comanda>(collection)
     const dbResult = await db.updateOne({ id: comandaId, evento: eventId }, { $set: { "pago": true } })
-    return (dbResult.modifiedCount>0) ? true : false
+    return (dbResult.modifiedCount > 0) ? true : false
   }
 
   static async atualizar(companyId: string, eventId: string, command: Comanda) {
     const db = (await new MongoConnector().connect()).collection<Comanda>(collection)
-    return db.updateOne(
+    const dbResult =  await db.updateOne(
       { realizador: companyId, id: eventId, 'comandas.id': command.id },
       {
         $set: {
-          'comandas.$' : command
+          'comandas.$': command
         }
       }
     )
+    return (dbResult.modifiedCount)?true:false
   }
 }

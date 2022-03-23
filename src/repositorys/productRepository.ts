@@ -11,7 +11,7 @@ export class ProductRepository {
     let dbResult = await db.updateOne(
       { id: companyId },
       {
-        $push: { "produtos": product }
+        $push: { "produto": product }
       }
     )
     return (dbResult.modifiedCount) ? true : false

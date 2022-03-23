@@ -6,7 +6,6 @@ import { Comanda } from "../entities/Comanda";
 let collection = 'eventos'
 
 export class CommandsRepository {
-  
   static async create(eventId: string, comanda: Comanda) {
     const db = (await new MongoConnector().connect()).collection(collection)
     comanda.id = GeneratorId()
@@ -17,9 +16,9 @@ export class CommandsRepository {
     return (dbResult.modifiedCount)?true:false
   }
 
-  static async findCommandByEvent(comandaId: string, eventoId: string) {
+  static async findCommandByEvent(companyId: string, comandaId: string, eventoId: string) {
     const db = (await new MongoConnector().connect()).collection<Comanda>(collection)
-    return db.findOne({ id : comandaId, evento : eventoId })
+    return db.findOne({ realizador: companyId, id : comandaId, evento : eventoId })
   }
 
   static async updateBalance(comanda: Comanda) {

@@ -22,7 +22,6 @@ export class ManagerProductInCommand implements IController {
       let empresa: Empresa = new Empresa(await CompanyRepository.getCompany(companyId))
       if (!empresa) throw new BadRequest("Empresa não encontrada.")
       
-      console.log(empresa)
       let evento: Evento = new Evento(empresa.pegarEvento(eventId))
       let comanda: Comanda = new Comanda(evento.pegarComanda(comandaId))
       let produtoEstoque = new ProdutoEstoque(empresa.pegarProduto(productId))

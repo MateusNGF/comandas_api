@@ -4,7 +4,7 @@ import { event_routers, company_routers, command_routes } from './routes'
 import { verify } from './utils'
 dotenv.config()
 
-export const app = express()
+export const app = express() 
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))

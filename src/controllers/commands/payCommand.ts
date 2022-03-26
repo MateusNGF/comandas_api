@@ -12,14 +12,13 @@ export class PayCommand implements IController {
       const eventId = request.params.eventId
       const commandId = request.params.commandId
 
-      let empresa: Empresa = new Empresa(await CompanyRepository.getCompany(companyId))
-      if(!empresa) throw new BadRequest("Empresa não encontrada.")
+      let evento: Evento = new Evento(await EventRepository.findById(eventId, companyId))
+      if(!evento) throw new BadRequest("Evento não encontrada.")
       
-      let evento: Evento = new Evento(empresa.pegarEvento(eventId))
       let comanda: Comanda = new Comanda(evento.pegarComanda(commandId))
 
       comanda.pagar()
-      evento.atualizarComanda(comanda)
+      await evento.atualizarComanda(comanda)
 
       return Messenger.success(comanda)
     } catch (erro) {

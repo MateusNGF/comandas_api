@@ -1,4 +1,4 @@
-import { BadRequest } from "../utils"
+import { BadRequest, gerarID } from "../utils"
 import { MissingParam } from "../utils/errors/custom/MissingParam"
 import { Comanda } from "./Comanda"
 
@@ -6,26 +6,15 @@ export class Produto {
   
   constructor(produto: Produto) {
     Object.assign(this, produto)
-    this.validar()
   }
-
+  
   id?: string
   nome: string
   marca?: string
   preco: number
-  categoria: string | Produto.Categoria // id ou o categoria completa
+  categoria: string
+  foto?: string 
   
-  validar?() {
-    for (const key in this) { if (!this[key]) throw new MissingParam(key) }
-  }
-  
-}
-
-export namespace Produto {
-  export class Categoria {
-    id: string
-    nome: string
-  }
 }
 
 
@@ -44,8 +33,8 @@ export class ProdutoEstoque extends Produto {
 
   vender(comanda: Comanda, quantidadeDeProdutos:number) {
     if (this.estoque < quantidadeDeProdutos)
-      throw new BadRequest(`Não há produtos suficientes no estoque. Em estoque : ${this.estoque}`)
-  
+      throw new BadRequest(`Há apenas ${this.estoque}x ${this.nome} em estoque.`)
+    
     this.estoque -= quantidadeDeProdutos
     comanda.adicionarProduto(this, quantidadeDeProdutos)
     return true

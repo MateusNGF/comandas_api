@@ -1,5 +1,4 @@
-import { Produto } from "../../entities";
-import { CompanyRepository, ProductRepository } from "../../repositorys";
+import { ProdutoRepositorio } from "../../repositorys";
 import { BadRequest, IController, Messenger, ObjectManager, typeCustomRequest, typeCustomResponse, Unauthorized } from "../../utils";
 
 
@@ -10,7 +9,7 @@ export class RemoveProduct implements IController {
       const companyId:string = request.header.company.id
       const productId:string = request.params.productId
 
-      if (!await ProductRepository.remove(companyId, productId)) {
+      if (!await ProdutoRepositorio.remover(companyId, productId)) {
         throw new BadRequest("Não foi possivel remover, verifique se ele ainda esta cadastrado ou tente novamente.")
       }
 

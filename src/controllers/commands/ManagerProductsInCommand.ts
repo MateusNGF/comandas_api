@@ -1,5 +1,5 @@
 import { Comanda, Empresa, Evento, ProdutoComprado, ProdutoEstoque } from "../../entities";
-import { CommandsRepository, CompanyRepository, ProductRepository } from "../../repositorys";
+import { CommandsRepository, CompanyRepository, ProdutoRepositorio } from "../../repositorys";
 import { BadRequest, IController, Messenger, ObjectManager, typeCustomRequest, typeCustomResponse, Unauthorized } from "../../utils";
 import textSchema from "../../utils/configurations/textSchema";
 const textsConfiguration = textSchema.ptbr.controllers.command
@@ -28,29 +28,20 @@ export class ManagerProductInCommand implements IController {
       
 
       if (action == "adicionar") {
-        
         produtoEstoque.vender(comanda, quantidadeDeProdutos)
-
         if (comanda.saldo > evento.maximo_saldo) {
           throw new BadRequest(`O limite para o saldo desse evento é ${evento.pegarMaximoSaldo()}, sua comanda possui ${comanda.pegarSaldo()}`)
         } 
-
       } else if (action == "remover") {
-
         produtoEstoque.voltarProduto(comanda, quantidadeDeProdutos)
-        
       } else {
         throw new BadRequest(textsConfiguration.undefinedError)
       }
 
-      // ATUALIZAR TODOS OS DADOS
-      // estoque do produto (Produto)
-      if (!await ProductRepository.atualizar(companyId, produtoEstoque))
-        throw new BadRequest(`Ocorreu um erro ao atualizar o estoque do produto "${produtoEstoque.nome}".`)
-      
-      // comanda do evento (Comanda)
-      if (!await CommandsRepository.atualizar(companyId, eventId, comanda))
-        throw new BadRequest(`Ocorreu um erro ao atualizar a comanda ${comanda.numero}. Tente Novamente.`)
+      // atualizar produto no estoque
+      await empresa.atualizarProduto(produtoEstoque)
+      // atualizar comanda do evento
+      await evento.atualizarComanda(comanda)
       
       return Messenger.success(comanda)
     } catch (erro) {

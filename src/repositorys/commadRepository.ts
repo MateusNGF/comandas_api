@@ -1,6 +1,6 @@
-import { v4 as GeneratorId } from "uuid";
 import { MongoConnector } from "../database/MongoConnector";
 import { Comanda } from "../entities/Comanda";
+import { gerarID } from "../utils";
 
 
 let collection = 'eventos'
@@ -8,7 +8,7 @@ let collection = 'eventos'
 export class CommandsRepository {
   static async create(eventId: string, comanda: Comanda) {
     const db = (await new MongoConnector().connect()).collection(collection)
-    comanda.id = GeneratorId()
+    comanda.id = gerarID("comandas")
     const dbResult = (await db.updateOne(
       { id: eventId },
       { $push: { "comandas": comanda } })
@@ -43,5 +43,18 @@ export class CommandsRepository {
       }
     )
     return (dbResult.modifiedCount)?true:false
+  }
+
+  static async remover(companyId :string, eventId: string, command : Comanda) {
+    const db = (await new MongoConnector().connect()).collection<Comanda>(collection)
+    const dbResult = await db.updateOne(
+      { realizador: companyId, id: eventId, 'comandas.id': command.id },
+      {
+        $pull: {
+          'comandas.$': command
+        }
+      }
+    )
+    return (dbResult.modifiedCount) ? true : false
   }
 }

@@ -1,5 +1,5 @@
 import { Empresa, ProdutoEstoque } from "../../entities";
-import { CompanyRepository, ProductRepository } from "../../repositorys";
+import { CompanyRepository, ProdutoRepositorio } from "../../repositorys";
 import { BadRequest, IController, Messenger, ObjectManager, typeCustomRequest, typeCustomResponse, Unauthorized } from "../../utils";
 
 
@@ -22,7 +22,7 @@ export class AddProduct implements IController {
         throw new BadRequest(`Você já possui esse o produto ${produtoEstoque.nome} da marca ${produtoEstoque.marca} cadastrado.`)
       }
 
-      if (!ProductRepository.add(Empresa.id, produtoEstoque)) {
+      if (!await ProdutoRepositorio.adicionar(Empresa.id, produtoEstoque)) {
         throw new BadRequest(`Não foi possivel cadastrar o produto ${produtoEstoque.nome}, tente de novo.`)
       }
 

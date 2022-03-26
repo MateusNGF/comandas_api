@@ -1,9 +1,7 @@
-import { CommandsRepository } from "../repositorys"
 import { formatToBRL } from 'brazilian-values'
-import { BadRequest } from "../utils"
-import { MissingParam } from "../utils/errors/custom/MissingParam"
+import { BadRequest, gerarID } from "../utils"
 import { Cliente } from "./Cliente"
-import { Produto, ProdutoComprado, ProdutoEstoque as produtoEstoque } from "./Produto"
+import { ProdutoComprado, ProdutoEstoque as produtoEstoque } from "./Produto"
 
 export class Comanda {
 
@@ -14,25 +12,34 @@ export class Comanda {
 
   id?: string
   numero: number
-  saldo?: number
-  visitante?: boolean
+  saldo?: number = 0
+  visitante?: boolean = true
   portador: Cliente | Cliente.visitante_simples | Cliente.visitante_completo | string
-  pago?: boolean
-  produtos?: Array<ProdutoComprado>
-  criado_em?: string
+  pago?: boolean = false
+  produtos?: Array<ProdutoComprado> = []
+  criado_em?: string = new Date().toISOString()
   
   valid() {}
   
   pagar() {
     this.verificarSeFoiPaga()
-    if (!(this.produtos && this.saldo)) { throw new BadRequest("Essa comanda não possui saldo a ser pago.") }
+    if (!(this.produtos && this.saldo)) {
+      throw new BadRequest("Essa comanda não possui saldo a ser pago.")
+    }
     this.pago = true
+  }
+
+  pegarProduto(productId: string) {
+    if (!this.produtos) throw new BadRequest("Nenhum produto comprado.")
+    let produto: ProdutoComprado = this.produtos?.find(p => p.id === productId)
+    if (!produto) throw new BadRequest("Esse produto não foi comprado.")
+    return produto
   }
 
   adicionarProduto(produtoEstoque: produtoEstoque, quantidadeDeProdutos: number) {
     this.verificarSeFoiPaga()
-    this.saldo += produtoEstoque.preco * quantidadeDeProdutos
-    let produtoIgual: ProdutoComprado = this.produtos?.find(p => p.id === produtoEstoque.id)
+    this.saldo += (produtoEstoque.preco * quantidadeDeProdutos)
+    let produtoIgual: ProdutoComprado = this.pegarProduto(produtoEstoque.id)
 
     if (produtoIgual) {
       let index = this.produtos.indexOf(produtoIgual)
@@ -62,25 +69,17 @@ export class Comanda {
     produto.quantidade -= quantidadeDeProdutos
     this.saldo -= (produto.preco * quantidadeDeProdutos)
       
-    if (this.saldo < 0) {
-      throw new BadRequest("Algo deu errado. Saldo fica negativo ao remover esse produto.")
+    if (this.saldo < 0) {throw new BadRequest("Algo deu errado. Saldo fica negativo ao remover esse produto.")}
+    
+    if (!produto.quantidade) {
+      let index: number = this.produtos.indexOf(produto)
+      this.produtos.splice(index, 1)
     }
 
-    let index: number = this.produtos.indexOf(produto)
-    return (this.produtos.splice(index, 1)) ? true : false
-  }
-
-  pegarProduto(productId: string) {
-    if (!this.produtos) throw new BadRequest("Nenhum produto comprado.")
-    let produto: ProdutoComprado = this.produtos?.find(p => p.id === productId)
-    if (!produto) throw new BadRequest("Esse produto não foi comprado.")
-    return produto
+    return true
   }
 
 
-  formatarDinheiro(valor: number) {
-    return formatToBRL(valor)
-  }
 
   verificarSeFoiPaga() {
     if (this.pago) {
@@ -89,6 +88,21 @@ export class Comanda {
     return false
   }
 
+  /**
+   * Formata o valor passado para BRL 
+   * @param valor numero de entrada
+   * @example 16556 => 'R$ 1.655,6'
+   * @returns string
+   */
+  formatarDinheiro(valor: number) {
+    return formatToBRL(valor)
+  }
+
+  /**
+   * Retorna o saldo formatado em BRL
+   * @example 1450 => 'R$ 1.450,00'
+   * @returns string
+   */
   pegarSaldo() {
     return this.formatarDinheiro(this.saldo)
   }

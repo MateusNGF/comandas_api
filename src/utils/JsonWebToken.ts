@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import { v4, v5 } from "uuid";
 import { Empresa } from "../entities";
 import text_schema from "./configurations/textSchema";
 import { Unauthorized } from "./errors/custom";
@@ -55,3 +56,12 @@ export const buildBody = (company: Empresa): any => {
   company["token"] = create(tokenInfo)
   return company;
 };
+
+
+export const gerarID = (nomeDoId: string) => {
+  if (nomeDoId) {
+    return v5(nomeDoId, v4()).replace("-", "")
+  } else {
+    return v5("GDC", v4()).replace("-", "")
+  }
+}

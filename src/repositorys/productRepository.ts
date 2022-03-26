@@ -1,23 +1,24 @@
 import { v4 as GeneretorId } from "uuid"
 import { MongoConnector } from "../database/MongoConnector"
 import { Empresa, Produto, ProdutoEstoque } from "../entities"
+import { DatabaseError, gerarID } from "../utils"
 
 const colletion: string = 'empresas'
 
-export class ProductRepository {
-  static async add(companyId: string, product: Produto) {
+export class ProdutoRepositorio {
+  static async adicionar(empresaID: string, produto: ProdutoEstoque) {
     const db = (await new MongoConnector().connect()).collection<Empresa>(colletion)
-    product.id = GeneretorId()
+    produto.id = gerarID("empresa")
     let dbResult = await db.updateOne(
-      { id: companyId },
+      { id: empresaID },
       {
-        $push: { "produto": product }
+        $push: { "produtos": produto }
       }
     )
-    return (dbResult.modifiedCount) ? true : false
+    return (dbResult.matchedCount) ? true : false
   }
 
-  static async remove(companyId: string, productId: string) {
+  static async remover(companyId: string, productId: string) {
     const db = (await new MongoConnector().connect()).collection(colletion)
     const dbResult = await db.updateOne(
       { id: companyId },
@@ -41,14 +42,14 @@ export class ProductRepository {
   static async atualizar(companyId: string, produto: ProdutoEstoque) {
     const db = (await new MongoConnector().connect()).collection<Empresa>(colletion)
     const dbResult = await db.updateOne(
-      { id: companyId, 'produtos.id' : produto.id },
+      { id: companyId, 'produtos.id': produto.id },
       {
         $set: {
-          "produtos.$" : produto
+          "produtos.$": produto
         }
       }
     )
-   return (dbResult.modifiedCount)?true:false
+    return (dbResult.modifiedCount) ? true : false
   }
   
 }

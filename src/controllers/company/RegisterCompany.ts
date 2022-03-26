@@ -17,13 +17,10 @@ export class RegisterCompany implements IController {
       } else if (await CompanyRepository.findCompanyByCNPJ(company.cnpj)) {
         throw new BadRequest(texts.companyRegistred('CNPJ'))
       }
-      
-      company.criado_em = new Date().toISOString()
-      company.atualizado_em = new Date().toISOString()
-      company.produtos = []
 
-      const result = await CompanyRepository.create(company)
-      return Messenger.success(result)
+      await CompanyRepository.create(company)
+
+      return Messenger.success(company)
     } catch (erro) {
       return Messenger.error(erro)
     }

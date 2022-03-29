@@ -16,8 +16,9 @@ export class Evento {
   id?: string;
   nome: string;
   realizador: string;
-  data_inicio: string;
+  categoria : string
   data_fim: string;
+  data_inicio: string;
   comandas?: Array<Comanda> = []
   criado_em?: string = new Date().toISOString()
   arquivado?: boolean = false

@@ -10,7 +10,7 @@ export class createEvent implements IController {
     try {
       const realizador = request.header.company.id
 
-      ObjectManager.hasKeys(["nome", "maximo_saldo", "data_inicio", "data_fim"], request.body)
+      ObjectManager.hasKeys(["nome", "categoria", "maximo_saldo", "data_inicio", "data_fim"], request.body)
       
     // verificar se a empresa existe
       const evento: Evento = new Evento(request.body)

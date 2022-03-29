@@ -9,7 +9,8 @@ import { ProdutoEstoque } from "./Produto"
 import { CompanyRepository, ProdutoRepositorio } from "../repositorys"
 
 export class Empresa {
-  constructor(empresa : Empresa) {
+  constructor(empresa: Empresa) {
+    if (!empresa) throw new BadRequest("Empresa não existe.")
     Object.assign(this, empresa)
     this.validar()
   }
@@ -73,11 +74,11 @@ export class Empresa {
   }
 
   public existeEsseProduto(produtoID?: string, produtoNome?: string) {
-    let byId = this.produtos.find(produtoEstoque => produtoEstoque.id === produtoID)
-    if (byId) return byId
+    let produto = this.produtos.find(produtoEstoque => produtoEstoque.id === produtoID)
+    if (produto) return produto
 
-    let byNome = this.produtos.find(produtoEstoque => (produtoEstoque.nome === produtoNome))
-    if (byNome) return byNome
+    produto = this.produtos.find(produtoEstoque => (produtoEstoque.nome === produtoNome))
+    if (produto) return produto
   }
 
   public async atualizarProduto(produto: ProdutoEstoque) {

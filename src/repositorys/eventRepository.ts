@@ -53,6 +53,23 @@ export class EventRepository {
       .sort({ criado_em: -1 }).toArray()
   }
 
+  static async groupEventosByCategory(companyId: string) {
+    const db = (await new MongoConnector().connect()).collection<Evento>(collection)
+    return db.aggregate([
+      { $match: { "realizador": companyId } },
+      {
+        $group: {
+          _id: "$categoria",
+          quantidade: {
+            $sum : 1
+          },
+          eventos: {
+            $push : '$$ROOT'
+          }
+      }}
+    ]).toArray()
+  }
+
   static async getEvent(eventId: string, companyId: string ) {
     const db = (await new MongoConnector().connect()).collection<Evento>(collection)
     return db.findOne({realizador: companyId, id: eventId })

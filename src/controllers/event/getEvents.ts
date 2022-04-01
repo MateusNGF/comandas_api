@@ -12,3 +12,15 @@ export class getEvents implements IController {
     }
   }
 }
+
+export class groupEventsByCategory implements IController {
+  async exec(request: typeCustomRequest): Promise<typeCustomResponse> {
+    try {
+      const companyId = request.header.company.id
+
+      return Messenger.success(await EventRepository.groupEventosByCategory(companyId))
+    } catch (erro) {
+      return Messenger.error(erro)
+    }
+  }
+}

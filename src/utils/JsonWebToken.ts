@@ -24,7 +24,7 @@ export const verify = (req: Request, res: Response, next: NextFunction): any => 
 
 export const decoded = (token: string): {} => {
   let decodedUser: any;
-  jwt.verify(token, process.env.jwtPassword, (failed, decoded) => {
+  jwt.verify(token, process.env.JWT_PASS, (failed, decoded) => {
     if (failed) throw new Unauthorized(text_schema.ptbr.jwt.invalidKey);
     decodedUser = decoded;
   });
@@ -33,8 +33,8 @@ export const decoded = (token: string): {} => {
 
 export const create = (
   params: {},
-  time: string = process.env.jwtExpiredDefaultTime,
-  secret: string = process.env.jwtPassword
+  time: string = process.env.JWT_EXPIRED_TIME,
+  secret: string = process.env.JWT_PASS
 ) => {
   if (!params) throw new Error(text_schema.ptbr.jwt.missingParams);
   return jwt.sign(params, secret, {

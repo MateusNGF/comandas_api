@@ -1,0 +1,35 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Comandas",
+    "description": "Essa pagina é referente a documentação de todas as rotas disponivel na aplicação, todas as informações necessarias para realizar a consulta.",
+    "version": "1.1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8100",
+      "description": "Development server"
+    }
+  ],
+  "basePath": "/",
+  "paths" :{
+    "/empresa/acessar" : {
+      "get" : {
+        "summary" : "Faz o login na conta.",
+        "description" : "Realiza um busca no banco procurando uma conta que tenha CNPJ ou Email e senha iguais as informadas na corpo da requisição."
+      }
+    },
+    "/empresa/registrar": {
+      "post": {
+        "summary": "Registra uma nova empresa.",
+        "description": "Antes de registrar ele valida se os dados existentes já existem no sistema e entre outras como formatação. Depois, realiza a operação de inserção no banco de dados e retornar um objeto do tipo Login como o token em `token`"
+      }
+    },
+    "/empresa/buscar": {
+      "get": {
+        "summary": "Realiza a busca de uma empresa.",
+        "description": "Atravez dos parametros passado para o endpoint ele realiza uma busca no banco em busca de um, somente, empresa."
+      }
+    }
+  }
+}

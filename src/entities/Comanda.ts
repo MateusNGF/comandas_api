@@ -31,9 +31,7 @@ export class Comanda {
 
   pegarProduto(productId: string) {
     if (!this.produtos) throw new BadRequest("Nenhum produto comprado.")
-    let produto: ProdutoComprado = this.produtos?.find(p => p.id === productId)
-    if (!produto) throw new BadRequest("Esse produto não foi comprado.")
-    return produto
+    return this.produtos?.find(p => p.id === productId)
   }
 
   adicionarProduto(produtoEstoque: produtoEstoque, quantidadeDeProdutos: number) {
@@ -61,18 +59,21 @@ export class Comanda {
   removerProduto(productId: string, quantidadeDeProdutos: number) {
     this.verificarSeFoiPaga()
 
-    let produto: ProdutoComprado = this.pegarProduto(productId)
+    let produtoComprado: ProdutoComprado = this.pegarProduto(productId)
+    
+    if (!produtoComprado)
+      throw new BadRequest("Esse produto não foi comprado.")
 
-    if (produto.quantidade < quantidadeDeProdutos)
-      throw new BadRequest(`Você possui apenas ${produto.quantidade}x ${produto.nome} comprados.`)
+    if (produtoComprado.quantidade < quantidadeDeProdutos)
+      throw new BadRequest(`Você possui apenas ${produtoComprado.quantidade}x ${produtoComprado.nome} comprados.`)
       
-    produto.quantidade -= quantidadeDeProdutos
-    this.saldo -= (produto.preco * quantidadeDeProdutos)
+    produtoComprado.quantidade -= quantidadeDeProdutos
+    this.saldo -= (produtoComprado.preco * quantidadeDeProdutos)
       
     if (this.saldo < 0) {throw new BadRequest("Algo deu errado. Saldo fica negativo ao remover esse produto.")}
     
-    if (!produto.quantidade) {
-      let index: number = this.produtos.indexOf(produto)
+    if (!produtoComprado.quantidade) {
+      let index: number = this.produtos.indexOf(produtoComprado)
       this.produtos.splice(index, 1)
     }
 

@@ -25,8 +25,8 @@ export class Empresa {
   clientes?: Array<Cliente> = []
   eventos?: Array<Evento> = []
   produtos?: Array<ProdutoEstoque> = []
-  criado_em?: string = new Date().toISOString()
-  atualizado_em?: string = new Date().toISOString()
+  criado_em?: Date = new Date()
+  atualizado_em?: Date = new Date()
 
   validar() {
     for (const key in this) { if (!this[key]) throw new MissingParam(key) }

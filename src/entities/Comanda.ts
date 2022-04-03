@@ -1,6 +1,6 @@
 import { formatToBRL } from 'brazilian-values'
-import { BadRequest, gerarID } from "../utils"
-import { Cliente } from "./Cliente"
+import { BadRequest } from "../utils"
+import {Visitante } from "./Cliente"
 import { ProdutoComprado, ProdutoEstoque as produtoEstoque } from "./Produto"
 
 export class Comanda {
@@ -14,7 +14,7 @@ export class Comanda {
   numero: number
   saldo?: number = 0
   visitante?: boolean = true
-  portador: Cliente.visitante_completo 
+  portador: Visitante
   pago?: boolean = false
   produtos?: Array<ProdutoComprado> = []
   criado_em?: string = new Date().toISOString()

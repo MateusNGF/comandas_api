@@ -1,4 +1,4 @@
-import { Comanda, Evento } from "../../entities";
+import { Comanda, Evento, Visitante } from "../../entities";
 import { ClienteRepository, EventRepository } from "../../repositorys";
 import { BadRequest, IController, Messenger, ObjectManager, typeCustomRequest, typeCustomResponse } from "../../utils";
 import textSchema from "../../utils/configurations/textSchema";
@@ -12,13 +12,14 @@ export class CreateCommand implements IController {
 
       ObjectManager.hasKeys(["numero", "portador"], request.body)
       if (typeof request.body.portador == "object") {
-        ObjectManager.hasKeys(["nome", "cpf", "email"], request.body.portador)
+        ObjectManager.hasKeys(["cpf", "nome", "email", "telefone"], request.body.portador)
       } else throw new BadRequest("O portador é composto por CPF, Email e Nome")
       
-      // criar uma conta no banco de dados Clientes.
 
+      request.body.portador = await ClienteRepository.create(new Visitante(request.body.portador))
+      
       const evento: Evento = new Evento(await EventRepository.findById(eventId, companyId))
-      if (!evento) throw new BadRequest(textSchema.ptbr.controllers.event.eventNotFound)
+      if (!evento) throw new BadRequest("Evento não foi encontrado!! :( ")
       
       let novaComanda = new Comanda(request.body)
 

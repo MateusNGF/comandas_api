@@ -12,7 +12,7 @@ export class ObjectManager {
 
         for (const key in object) {
           if (!requireds.find((element) => element == key)) {
-            throw new UnexpectedParam(key)
+            delete object[key]
           }
         }
       } else {

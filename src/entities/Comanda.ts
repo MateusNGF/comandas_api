@@ -14,7 +14,7 @@ export class Comanda {
   numero: number
   saldo?: number = 0
   visitante?: boolean = true
-  portador: Cliente | Cliente.visitante_simples | Cliente.visitante_completo | string
+  portador: Cliente.visitante_completo 
   pago?: boolean = false
   produtos?: Array<ProdutoComprado> = []
   criado_em?: string = new Date().toISOString()

@@ -210,6 +210,17 @@
         "responses": {}
       }
     },
+    "/pagamentos/adicionar/bancario": {
+      "post": {
+        "tags": [
+          "Empresa"
+        ],
+        "summary": "Adicionar uma conta bancaria na compania para realização de transações.",
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
     "/criar": {
       "post": {
         "tags": [
@@ -306,6 +317,28 @@
         ],
         "responses": {}
       }
+    }
+  },
+  "definitions": {
+    "Comanda": {
+      "type": "object",
+      "properties": {}
+    },
+    "Empresa": {
+      "type": "object",
+      "properties": {}
+    },
+    "Produto_Estoque": {
+      "type": "object",
+      "properties": {}
+    },
+    "Produto_Comprado": {
+      "type": "object",
+      "properties": {}
+    },
+    "Cliente": {
+      "type": "object",
+      "properties": {}
     }
   }
 }

@@ -1,4 +1,3 @@
-import { ObjectId } from "mongodb"
 import { Comanda } from "./Comanda"
 
 export type Cliente = {
@@ -11,17 +10,11 @@ export type Cliente = {
   comandas?: Array<Comanda>
 }
 
-
-export namespace Cliente {
-  export type visitante_simples = {
-    nome?: string
-  }
-}
-
 export namespace Cliente {
   export type visitante_completo = {
     nome?: string,
-    cpf?: string,
+    cpf: string,
+    email?: string
     telefone?: string
   }
 }

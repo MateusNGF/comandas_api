@@ -10,6 +10,8 @@ export class ObjectManager {
           }
         })
 
+        // depois de modificar esse delete para cada entidade
+        // modificar esse trecho de codigo para validar apenas se tem a chave dentro
         for (const key in object) {
           if (!requireds.find((element) => element == key)) {
             delete object[key]
@@ -22,5 +24,14 @@ export class ObjectManager {
           }
         })
       }
+  }
+
+  static assing(obj: any, input: object) {
+    for (const key in obj) {
+      if (input[key]) {
+        obj[key] = input[key]
+      }
+    }
+    return obj
   }
 }

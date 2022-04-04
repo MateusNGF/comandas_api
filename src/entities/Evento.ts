@@ -13,12 +13,12 @@ export class Evento {
     this.valid()
   }
 
-  id?: string;
-  nome: string;
-  realizador: string;
-  categoria : string
-  data_fim: Date;
-  data_inicio: Date;
+  id?: string = undefined
+  nome: string = undefined
+  realizador: string = undefined
+  categoria: string
+  data_fim: Date = undefined
+  data_inicio: Date = undefined
   comandas?: Array<Comanda> = []
   criado_em?: string = new Date().toISOString()
   arquivado?: boolean = false
@@ -34,6 +34,7 @@ export class Evento {
         }
       }
     }
+    // for (const key in this) {if(typeof this[key] == "string" && !this[key]) delete this[key] }
   }
 
   pegarComanda(comandaId: string) : Comanda {
@@ -55,8 +56,10 @@ export class Evento {
     if (!this.comandas) return true
     this.comandas.find(command => {
       command = new Comanda(command)
-      if ((command.numero === comanda.numero && command.pago == false)) throw new BadRequest(`A Comanda N${command.numero}º esta sendo usada, tente atribuir outra.`) 
-      if ((command.portador.cpf == comanda.portador.cpf && command.pago == false)) throw new BadRequest(`Cliente esta usando a comanda N${command.numero}º com ${command.pegarSaldo()}`)
+      if ((command.numero === comanda.numero && command.pago == false))
+        throw new BadRequest(`A Comanda N${command.numero}º esta sendo usada, tente atribuir outra.`) 
+      if ((command.portador.cpf == comanda.portador.cpf && command.pago == false))
+        throw new BadRequest(`Cliente esta usando a comanda N${command.numero}º com ${command.pegarSaldo()}`)
     })
   }
 

@@ -1,25 +1,31 @@
 import { formatToBRL } from 'brazilian-values'
-import { BadRequest } from "../utils"
+import { BadRequest, ObjectManager } from "../utils"
 import {Visitante } from "./Cliente"
 import { ProdutoComprado, ProdutoEstoque as produtoEstoque } from "./Produto"
 
 export class Comanda {
 
   constructor(comanda: Comanda) {
-    Object.assign(this, comanda)
+    ObjectManager.assing(this, comanda)
     this.valid()
   }
 
-  id?: string
-  numero: number
+  id?: string = undefined
+  numero: number = undefined
   saldo?: number = 0
   visitante?: boolean = true
-  portador: Visitante
+  portador: Visitante = undefined
   pago?: boolean = false
   produtos?: Array<ProdutoComprado> = []
   criado_em?: string = new Date().toISOString()
   
-  valid() {}
+  valid() {
+    for (const key in this) {
+      if (typeof this[key] == "string") {
+        if (!this[key]) delete this[key]
+      }
+    }
+  }
   
   pagar() {
     this.verificarSeFoiPaga()

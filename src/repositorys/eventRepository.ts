@@ -45,6 +45,11 @@ export class EventRepository {
     return (result.modifiedCount == 1) ? true : false
   }
 
+  static async getEvent(eventId: string, companyId: string) {
+    const db = (await new MongoConnector().connect()).collection<Evento>(collection)
+    return db.findOne({ realizador: companyId, id: eventId })
+  }
+
   static async getEvents(companyId: string) {
     const db = (await new MongoConnector().connect()).collection<Evento>(collection)
     return db.find(
@@ -57,21 +62,28 @@ export class EventRepository {
     const db = (await new MongoConnector().connect()).collection<Evento>(collection)
     return db.aggregate([
       { $match: { "realizador": companyId } },
+      {$group: {
+          _id: "$categoria",
+          quantidade: {$sum : 1},
+          eventos: {$push : '$$ROOT'}
+      }},
+      {$sort : {quantidade : -1}}
+    ]).toArray()
+  }
+
+  static async getCategories(companyId: string) {
+    const db = (await new MongoConnector().connect()).collection<Evento>(collection)
+    return db.aggregate([
+      { $match: { realizador: companyId } },
       {
         $group: {
           _id: "$categoria",
           quantidade: {
-            $sum : 1
-          },
-          eventos: {
-            $push : '$$ROOT'
+            $sum: 1
           }
-      }}
+        }
+      },
+      { $sort: { quantidade: -1 } }
     ]).toArray()
-  }
-
-  static async getEvent(eventId: string, companyId: string ) {
-    const db = (await new MongoConnector().connect()).collection<Evento>(collection)
-    return db.findOne({realizador: companyId, id: eventId })
   }
 }

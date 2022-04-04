@@ -1,0 +1,311 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Comandas",
+    "description": "Essa pagina é referente a documentação de todas as rotas disponivel na aplicação, todas as informações necessarias para realizar a consulta.",
+    "version": "1.1.0"
+  },
+  "host": "http://localhost:8100",
+  "servers": [
+    {
+      "url": "http://localhost:8100",
+      "description": "Development server"
+    }
+  ],
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Empresa",
+      "description": "préfixo `__host/empresa`"
+    },
+    {
+      "name": "Produtos",
+      "description": "préfixo `__host/empresa`"
+    },
+    {
+      "name": "Eventos",
+      "description": "préfixo `__host/evento`"
+    },
+    {
+      "name": "Comandas",
+      "description": "préfixo `__host/comanda`"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/{eventId}/criar": {
+      "post": {
+        "tags": [
+          "Comandas"
+        ],
+        "summary": "Cria uma comanda para o evento referenciado.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "eventId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/{eventId}/{commandId}/{action}/produto/{productId}": {
+      "post": {
+        "tags": [
+          "Comandas"
+        ],
+        "summary": "Adicionar ou Remove um produto na comanda.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "eventId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "commandId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "action",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/{eventId}/{commandId}/pagar": {
+      "put": {
+        "tags": [
+          "Comandas"
+        ],
+        "summary": "Efetua o pagamento da comanda.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "eventId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "commandId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/{eventId}/{commandId}/pegar": {
+      "get": {
+        "tags": [
+          "Comandas"
+        ],
+        "summary": "Pega uma comanda e tras toda sua informação.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "eventId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "commandId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/acessar": {
+      "get": {
+        "tags": [
+          "Empresa"
+        ],
+        "summary": "Acessa a conta existente de um empresa pelo CNPJ ou Email.",
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/registrar": {
+      "post": {
+        "tags": [
+          "Empresa"
+        ],
+        "summary": "Registra uma nova empresa com base no corpo da requisição informado.",
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/buscar": {
+      "get": {
+        "tags": [
+          "Empresa"
+        ],
+        "summary": "Retorna `todas` as informações da company. ",
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/produtos/listar": {
+      "get": {
+        "tags": [
+          "Produtos"
+        ],
+        "summary": "Lista com base no estoque os produtos da empresa.",
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/produtos/adicionar": {
+      "post": {
+        "tags": [
+          "Produtos"
+        ],
+        "summary": "Adicionar um novo produto ao estoque da empresa.",
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/produtos/remover/{productId}": {
+      "put": {
+        "tags": [
+          "Produtos"
+        ],
+        "summary": "Remove um produto cadastrado no estoque com base no id passado.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/criar": {
+      "post": {
+        "tags": [
+          "Eventos"
+        ],
+        "summary": "Cria um novo evento para empresa.",
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/procurar": {
+      "get": {
+        "tags": [
+          "Eventos"
+        ],
+        "summary": "Procura um evento ou por nome ou pelo seu id.",
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/listar": {
+      "get": {
+        "tags": [
+          "Eventos"
+        ],
+        "summary": "Lista todos os eventos associados a empresa.",
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/listar/categorias": {
+      "get": {
+        "tags": [
+          "Eventos"
+        ],
+        "summary": "Lista todas as categorias de eventos.",
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/listar/agrupado/categoria": {
+      "get": {
+        "tags": [
+          "Eventos"
+        ],
+        "summary": "Lista os eventos agrupados pela sua categoria.",
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/{eventId}/get": {
+      "get": {
+        "tags": [
+          "Eventos"
+        ],
+        "summary": "Pega um evento com toda sua informação com base no id.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "eventId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/{eventId}/arquivar/{status}": {
+      "put": {
+        "tags": [
+          "Eventos"
+        ],
+        "summary": "Arquiva ou Desarquiva um evento.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "eventId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    }
+  }
+}

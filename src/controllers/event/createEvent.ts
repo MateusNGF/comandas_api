@@ -1,7 +1,6 @@
 import { Evento } from "../../entities";
 import { EventRepository } from "../../repositorys";
 import { BadRequest, IController, Messenger, ObjectManager, typeCustomRequest, typeCustomResponse } from "../../utils";
-import { props } from "../../utils/configurations";
 import text_schema from "../../utils/configurations/textSchema";
 const textConfigs = text_schema.ptbr.controllers.event.create
 
@@ -16,8 +15,8 @@ export class createEvent implements IController {
       const evento: Evento = new Evento(request.body)
    
       evento.realizador = realizador
-      evento.data_inicio = new Date(request.body.data_inicio).toISOString()
-      evento.data_fim = new Date(request.body.data_fim).toISOString()
+      evento.data_inicio = new Date(request.body.data_inicio)
+      evento.data_fim = new Date(request.body.data_fim)
 
       if (evento.data_inicio > evento.data_fim) {
         throw new BadRequest(textConfigs.dateInvalid)

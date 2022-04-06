@@ -54,4 +54,8 @@ export class CompanyRepository {
       }
     ]).toArray())[0]
   }
+
+  static async addAccountPay(companyId, account: any) {
+    
+  }
 }

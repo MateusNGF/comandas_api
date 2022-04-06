@@ -5,13 +5,14 @@
   "main": "server.ts",
   "scripts": {
     "start:dev": "npm run swagger && nodemon -r dotenv/config src/server.ts",
-    "swagger" : "rm ./swagger.json && node src/swagger.generate.ts || node src/swagger.generate.ts",
+    "swagger": "rm ./swagger.json && node src/swagger.generate.ts || node src/swagger.generate.ts",
     "start:test": "jest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "br-bank-account-validator": "0.0.8",
     "brazilian-values": "^0.10.1",
     "dotenv": "^16.0.0",
     "dotenv-safe": "^8.2.0",

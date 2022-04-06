@@ -18,8 +18,8 @@ export class PayCommand implements IController {
       let comanda: Comanda = new Comanda(evento.pegarComanda(commandId))
 
       comanda.pagar()
+      
       await evento.atualizarComanda(comanda)
-
       return Messenger.success(comanda)
     } catch (erro) {
       return Messenger.error(erro)

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { AccessCompany, GetCompany, RegisterCompany } from "../controllers/company";
+import { AccessCompany, AddAccountOfPayment, GetCompany, RegisterCompany } from "../controllers/company";
 import { AddProduct, ListProducts, RemoveProduct } from "../controllers/product";
 import { verify } from "../utils";
 import { ExpressAdapterRouter } from "../utils/adapter";
@@ -33,6 +33,10 @@ company_routers.get("/buscar", verify,
 
 
 
+// ==================================================
+// ============= PRODUTOS DA EMPRESA ================
+// ==================================================
+
 company_routers.get("/produtos/listar", verify, 
   /**
     #swagger.tags = ["Produtos"]
@@ -56,6 +60,21 @@ company_routers.put("/produtos/remover/:productId", verify,
     #swagger.description = ""
    */
   ExpressAdapterRouter.adapt(new RemoveProduct()))
+
+
+
+
+// ==================================================
+// ============= PAGAMENTOS =========================
+// ==================================================
+
+
+company_routers.post("/pagamentos/adicionar/bancario", verify,
+  /**
+   #swagger.tags = ["Empresa"]
+   #swagger.summary = "Adicionar uma conta bancaria na compania para realização de transações." 
+   */
+ExpressAdapterRouter.adapt(new AddAccountOfPayment()))
 
 
 

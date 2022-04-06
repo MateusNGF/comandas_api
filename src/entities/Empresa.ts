@@ -18,7 +18,7 @@ export class Empresa {
   id?: string
   responsavel?: string
   nome: string
-  cnpj?: string
+  cnpj: string
   email: string
   senha?: string
   telefone?: string

@@ -6,7 +6,7 @@ export default {
       company: {
         access: {
           missingParam: "Acesso não autorizado. CNPJ ou Email são necessários juntamento com a senha.",
-          companyFailedAccess: "Não foi possivel acessar sua conta. Verifique seu Email e sua senha."
+          companyFailedAccess: "Não foi possivel acessar sua conta. Verifique seu Email ou CNPJ e a senha."
         },
         register: {
           companyRegistred: (param: string) => { return `O parametro '${param}' já esta registrado em uma empresa, tente acessa-la.` },

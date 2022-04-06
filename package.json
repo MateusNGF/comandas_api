@@ -5,11 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "start:dev": "npm run swagger && nodemon -r dotenv/config src/server.ts",
-<<<<<<< Updated upstream
-    "swagger": "rm ./swagger.json && node src/swagger.generate.ts || node src/swagger.generate.ts",
-=======
     "swagger": "del ./swagger.json && node src/swagger.generate.ts || node src/swagger.generate.ts",
->>>>>>> Stashed changes
     "start:test": "jest"
   },
   "keywords": [],
